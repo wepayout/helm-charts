@@ -1,0 +1,32 @@
+apiVersion: v1
+entries:
+  deployment:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-12-16T19:02:10.25422966Z"
+    description: A Helm chart for a generic deployment with Istio service mesh.
+    digest: c33beeccd252be4996f7bdd95560d08401a6a3990b0ac3ab31eb02f2547e0ef4
+    name: deployment
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/deployment-0.1.0/deployment-0.1.0.tgz
+    version: 0.1.0
+  starter-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-12-16T19:02:10.445763373Z"
+    description: A starter chart designed for WePayOut
+    digest: af1ed78bb5cd916f135f9fa95a204c3414d11d1842571b74381e1ccb0e9b8cec
+    home: https://gitlab.com/wepayout/devops/starter-chart
+    icon: https://helm.sh/img/favicon-152.png
+    kubeVersion: '>= 1.20'
+    maintainers:
+    - email: bcorreia@wepayout.com.br
+      name: Bruno Correia
+      url: https://gitlab.com/brunosimsenhor
+    name: starter-chart
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.0/starter-chart-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-12-16T19:02:10.445769673Z"
