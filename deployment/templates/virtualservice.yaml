@@ -1,0 +1,35 @@
+{{- if .Values.virtualServices.enabled }}
+{{ $serviceName := printf "%s.%s" (include "deployment.fullname" $) $.Release.Namespace }}
+{{- range $vs := .Values.virtualServices.services }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ (include "deployment.fullname" $) }}{{ (ternary (print "-" $vs.nameSuffix) "" (not (empty $vs.nameSuffix))) }}
+  labels:
+    {{- include "deployment.labels" $ | nindent 4 }}
+spec:
+  hosts:
+    {{- with $vs.hosts }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    - {{ $serviceName }}
+  {{- with $vs.gateways }}
+  gateways:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  http:
+    {{- if empty $vs.http }}
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            port:
+              number: {{ $.Values.service.port }}
+            host: {{ $serviceName | quote }}
+    {{- else }}
+    {{- toYaml $vs.http | nindent 4 }}
+    {{- end }}
+---
+{{- end }}
+{{- end }}
