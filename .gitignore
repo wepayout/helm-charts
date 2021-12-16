@@ -1,2 +1,2 @@
-/starter-chart-*.tgz
-/deployment-*.tgz
+/charts/starter-chart-*.tgz
+/charts/deployment-*.tgz
