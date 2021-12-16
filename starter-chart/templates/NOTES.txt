@@ -1,8 +1,12 @@
 1. Get the application URL by running these commands:
 {{- if .Values.virtualServices.enabled }}
-{{- range $host := .Values.virtualServices.hosts }}
-  {{- range $.Values.virtualServices.httpRoutes }}
-  http://{{ $host }}{{ .match.uri.prefix }}
+{{- range $service := .Values.virtualServices.services }}
+  {{- range $host := .hosts }}
+    {{- range $service.http }}
+      {{- range .match }}
+  http://{{ $host }}{{ .uri.prefix }}
+      {{- end }}
+    {{- end }}
   {{- end }}
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
