@@ -18,6 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
+        app.wepayout.co/version: {{ required "A valid .Values.image.tag entry is required!" .Values.image.tag | quote }}
         {{- include "deployment.selectorLabels" . | nindent 8 }}
     spec:
       # Image pull secrets, used to download images from the registry (e.g. DockerHub)
@@ -42,7 +43,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ required "A valid .Values.image.repository entry is required!" .Values.image.repository }}:{{ required "A valid .Values.image.tag entry is required!" .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.deployment.containerPorts }}
           ports:
