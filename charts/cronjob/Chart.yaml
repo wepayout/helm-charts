@@ -1,6 +1,6 @@
 apiVersion: v2
 appVersion: 0.1.0
-description: A generic Helm chart for Kubernetes CronJob created by WePayOut.
+description: A Helm chart for a generic CronJob with Istio service mesh created by WePayOut.
 name: cronjob
 type: application
 version: 0.1.0
