@@ -1,0 +1,117 @@
+{{ $imageTag := required "A valid .Values.image.tag entry is required!" .Values.image.tag }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "cronjob.fullname" . }}
+  labels:
+    {{- include "cronjob.labels" . | nindent 4 }}
+spec:
+  concurrencyPolicy: {{ .Values.concurrencyPolicy }}
+  schedule: {{ required "A valid .Values.jobSchedule entry is required!" .Values.jobSchedule | quote }}
+  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
+  jobTemplate:
+    metadata:
+      name: {{ include "cronjob.fullname" . }}
+      labels:
+        app.wepayout.co/version: {{ $imageTag | quote }}
+        {{- include "cronjob.selectorLabels" . | nindent 8 }}
+    spec:
+      parallelism: {{ .Values.parallelism }}
+      completions: {{ .Values.completions }}
+      {{- with .Values.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ . }}
+      {{- end }}
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            app.wepayout.co/version: {{ $imageTag | quote }}
+            {{- include "cronjob.selectorLabels" . | nindent 12 }}
+        spec:
+          # Image pull secrets, used to download images from the registry (e.g. DockerHub)
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          # Pod service account name
+          serviceAccountName: {{ include "cronjob.serviceAccountName" . }}
+          {{- with .Values.podSecurityContext }}
+          # Pod security context
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.initContainers }}
+          initContainers:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          shareProcessNamespace: true
+          containers:
+            - name: {{ .Chart.Name }}
+              {{- with .Values.securityContext }}
+              securityContext:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              image: "{{ required "A valid .Values.image.repository entry is required!" .Values.image.repository }}:{{ $imageTag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              {{- with .Values.startupProbe }}
+              # Liveness
+              livenessProbe:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- with .Values.startupProbe }}
+              # Startup
+              startupProbe:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              # Container resource usage
+              resources:
+                {{- toYaml (required "A valid .Values.resources entry is required!" (ternary nil .Values.resources (eq (toJson .Values.resources) "{}"))) | nindent 16 }}
+              {{- with .Values.extraEnv }}
+              # Extra env
+              env:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- with .Values.extraEnvFrom }}
+              # Extra envFrom
+              envFrom:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              # Command
+              command:
+                - /istio-handler
+              {{- with .Values.extraArgs }}
+              # Extra arguments
+              args:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              volumeMounts:
+                - name: istio-handler
+                  mountPath: /istio-handler
+                  subPath: handler.sh
+
+          {{- with .Values.nodeSelector }}
+          # Pod node selectors
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          # Pod affinities
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          # Pod tolerations
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          restartPolicy: {{ .Values.restartPolicy }}
+
+          volumes:
+            - name: istio-handler
+              configMap:
+                defaultMode: 0555
+                name: {{ include "cronjob.fullname" . }}-istio

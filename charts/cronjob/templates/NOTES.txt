@@ -1,0 +1,1 @@
+Your cronjob you run with this schedule: {{ .Values.jobSchedule }}.
