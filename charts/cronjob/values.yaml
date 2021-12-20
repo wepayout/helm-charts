@@ -61,8 +61,6 @@ extraEnv: []
 
 extraEnvFrom: []
 
-overrideCommand: []
-
 extraArgs: []
 
 initContainers: []
