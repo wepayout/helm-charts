@@ -33,7 +33,7 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.deployment.initContainers }}
+      {{- with .Values.initContainers }}
       initContainers:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -45,21 +45,21 @@ spec:
           {{- end }}
           image: "{{ required "A valid .Values.image.repository entry is required!" .Values.image.repository }}:{{ required "A valid .Values.image.tag entry is required!" .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- with .Values.deployment.containerPorts }}
+          {{- with .Values.containerPorts }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.deployment.probes.liveness }}
+          {{- with .Values.livenessProbe }}
           # Liveness
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.deployment.probes.readiness }}
+          {{- with .Values.readinessProbe }}
           # Readiness
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.deployment.probes.startup }}
+          {{- with .Values.startupProbe }}
           # Startup
           startupProbe:
             {{- toYaml . | nindent 12 }}
@@ -87,6 +87,11 @@ spec:
           args:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.volumeMounts }}
+          # Volume mounts
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       # Pod node selectors
       nodeSelector:
@@ -100,5 +105,10 @@ spec:
       {{- with .Values.tolerations }}
       # Pod tolerations
       tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.volumes }}
+      # Pod volumes
+      volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}

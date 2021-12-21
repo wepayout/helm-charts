@@ -66,33 +66,6 @@ virtualServices:
                   number: 80
                 host: chart-example.local
 
-deployment:
-  probes:
-    liveness:
-      httpGet:
-        path: /health-check/
-        port: http
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-      periodSeconds: 10
-
-    readiness:
-      httpGet:
-        path: /health-check/
-        port: http
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-      periodSeconds: 10
-
-    startup: ~
-
-  initContainers: []
-
-  containerPorts:
-    - name: http
-      containerPort: 80
-      protocol: TCP
-
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -127,3 +100,26 @@ overrideCommand: []
 extraArgs: []
 
 initContainers: []
+
+livenessProbe:
+  httpGet:
+    path: /health-check/
+    port: http
+  initialDelaySeconds: 5
+  timeoutSeconds: 2
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /health-check/
+    port: http
+  initialDelaySeconds: 5
+  timeoutSeconds: 2
+  periodSeconds: 10
+
+startupProbe: ~
+
+containerPorts:
+  - name: http
+    containerPort: 80
+    protocol: TCP
