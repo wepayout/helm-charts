@@ -50,21 +50,21 @@ service:
 
 virtualServices:
   enabled: false
-  services:
-    - nameSuffix: ""
-      hosts:
-        - chart-example.local
-      gateways:
-        - gateway-example.local
-      http:
-        - match:
-            - uri:
-                prefix: "/"
-          route:
-            - destination:
-                port:
-                  number: 80
-                host: chart-example.local
+  services: []
+    # - nameSuffix: ""
+    #   hosts:
+    #     - chart-example.local
+    #   gateways:
+    #     - gateway-example.local
+    #   http:
+    #     - match:
+    #         - uri:
+    #             prefix: "/"
+    #       route:
+    #         - destination:
+    #             port:
+    #               number: 80
+    #             host: chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
