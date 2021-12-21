@@ -3,6 +3,17 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2021-12-21T19:50:27.786843326Z"
+    description: A Helm chart for a generic CronJob with Istio service mesh created
+      by WePayOut.
+    digest: bd25156ddb55ef69f4d997c151217c09fe3d04ec7e309d4e8b5293df43926092
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/cronjob-0.1.1/cronjob-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-12-20T19:03:09.29508267Z"
     description: A Helm chart for Kubernetes
     digest: 5294e3ae9e9b3c294d5367300689ff755518600b557129f0ca888d6ee8a62db2
@@ -14,6 +25,17 @@ entries:
   deployment:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2021-12-21T19:50:27.948189411Z"
+    description: A Helm chart for a generic deployment with Istio service mesh created
+      by WePayOut.
+    digest: b6e0cd9dea823493df7b21092fd4cacf95b1811772ce284d58aa8455490902b9
+    name: deployment
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/deployment-0.1.1/deployment-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-12-16T19:02:10.25422966Z"
     description: A Helm chart for a generic deployment with Istio service mesh.
     digest: c33beeccd252be4996f7bdd95560d08401a6a3990b0ac3ab31eb02f2547e0ef4
@@ -23,6 +45,23 @@ entries:
     - https://github.com/wepayout/helm-charts/releases/download/deployment-0.1.0/deployment-0.1.0.tgz
     version: 0.1.0
   starter-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-12-21T19:50:28.108306194Z"
+    description: A starter chart designed by WePayOut
+    digest: a2d63d290ad5209747f2f678b814fffb0e90ecfda08aca8b2a4096dd3cade996
+    home: https://gitlab.com/wepayout/devops/starter-chart
+    icon: https://helm.sh/img/favicon-152.png
+    kubeVersion: '>= 1.20'
+    maintainers:
+    - email: bcorreia@wepayout.com.br
+      name: Bruno Correia
+      url: https://gitlab.com/brunosimsenhor
+    name: starter-chart
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.1/starter-chart-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2021-12-16T19:02:10.445763373Z"
@@ -40,4 +79,4 @@ entries:
     urls:
     - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.0/starter-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2021-12-20T19:03:09.29508837Z"
+generated: "2021-12-21T19:50:28.108324494Z"
