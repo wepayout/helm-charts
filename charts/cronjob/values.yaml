@@ -87,3 +87,7 @@ activeDeadlineSeconds: ~
 
 livenessProbe: ~
 startupProbe: ~
+
+volumes: []
+
+volumeMounts: []

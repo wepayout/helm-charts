@@ -93,6 +93,11 @@ spec:
                   mountPath: /istio-handler
                   subPath: handler.sh
 
+              {{- with .Values.volumeMounts }}
+                # Pod extra volumeMounts
+                {{- toYaml . | nindent 12 }}
+              {{- end }}
+
           {{- with .Values.nodeSelector }}
           # Pod node selectors
           nodeSelector:
@@ -115,3 +120,8 @@ spec:
               configMap:
                 defaultMode: 0555
                 name: {{ include "cronjob.fullname" . }}-istio
+
+          {{- with .Values.volumes }}
+            # Pod extra volumes
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
