@@ -1,2 +1,4 @@
 /charts/starter-chart-*.tgz
 /charts/deployment-*.tgz
+/charts/cronjob-*.tgz
+/testing/
