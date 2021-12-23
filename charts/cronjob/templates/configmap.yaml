@@ -7,7 +7,8 @@ data:
     #!/bin/sh
 
     echo "Waiting for Istio sidecar...";
-    until wget -q --spider http://127.0.0.1:15021/healthz/ready; do sleep 1; done;
+    sleep 2;
+    until wget -q --spider http://127.0.0.1:15021/healthz/ready; do sleep 2; done;
     echo "Initing... $@";
     trap "echo 'Killing Istio sidecar...' && wget -q --post-data='' -S --spider http://127.0.0.1:15020/quitquitquit" EXIT;
 
