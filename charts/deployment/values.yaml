@@ -106,16 +106,16 @@ livenessProbe:
     path: /health-check/
     port: http
   initialDelaySeconds: 5
-  timeoutSeconds: 2
-  periodSeconds: 10
+  timeoutSeconds: 5
+  periodSeconds: 15
 
 readinessProbe:
   httpGet:
     path: /health-check/
     port: http
   initialDelaySeconds: 5
-  timeoutSeconds: 2
-  periodSeconds: 10
+  timeoutSeconds: 5
+  periodSeconds: 15
 
 startupProbe: ~
 
