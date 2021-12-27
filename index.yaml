@@ -3,6 +3,17 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2021-12-27T15:25:11.605877945Z"
+    description: A Helm chart for a generic CronJob with Istio service mesh created
+      by WePayOut.
+    digest: f68af83579b8af4d9215769c729afbb0638d55f21f3e7a1d8b9f9e6200fe93d4
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/cronjob-0.1.7/cronjob-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-12-27T13:31:53.077937831Z"
     description: A Helm chart for a generic CronJob with Istio service mesh created
       by WePayOut.
@@ -145,4 +156,4 @@ entries:
     urls:
     - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.0/starter-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2021-12-27T13:31:53.077996332Z"
+generated: "2021-12-27T15:25:11.605963046Z"
