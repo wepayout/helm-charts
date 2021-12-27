@@ -61,6 +61,8 @@ extraEnv: []
 
 extraEnvFrom: []
 
+overrideCommand: []
+
 extraArgs: []
 
 initContainers: []
@@ -91,3 +93,5 @@ startupProbe: ~
 volumes: []
 
 volumeMounts: []
+
+istioEnabled: false

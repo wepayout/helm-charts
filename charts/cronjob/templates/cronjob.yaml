@@ -24,10 +24,9 @@ spec:
       {{- end }}
       template:
         metadata:
-          {{- with .Values.podAnnotations }}
           annotations:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- toYaml .Values.podAnnotations | nindent 12 }}
+            sidecar.istio.io/inject: {{ (ternary "true" "false" .Values.istioEnabled) | quote }}
           labels:
             app.wepayout.co/version: {{ $imageTag | quote }}
             {{- include "cronjob.selectorLabels" . | nindent 12 }}
@@ -48,7 +47,6 @@ spec:
           initContainers:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          shareProcessNamespace: true
           containers:
             - name: {{ .Chart.Name }}
               {{- with .Values.securityContext }}
@@ -80,18 +78,24 @@ spec:
               envFrom:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
+
+              {{- with .Values.overrideCommand }}
               # Command
               command:
-                - /istio-handler
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
               {{- with .Values.extraArgs }}
               # Extra arguments
               args:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
+
               volumeMounts:
+                {{- if .Values.istioEnabled }}
                 - name: istio-handler
                   mountPath: /istio-handler
                   subPath: handler.sh
+                {{- end }}
 
               {{- with .Values.volumeMounts }}
                 # Pod extra volumeMounts
@@ -116,10 +120,12 @@ spec:
           restartPolicy: {{ .Values.restartPolicy }}
 
           volumes:
+            {{- if .Values.istioEnabled }}
             - name: istio-handler
               configMap:
                 defaultMode: 0555
                 name: {{ include "cronjob.fullname" . }}-istio
+            {{- end }}
 
           {{- with .Values.volumes }}
             # Pod extra volumes
