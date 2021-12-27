@@ -25,7 +25,9 @@ spec:
       template:
         metadata:
           annotations:
-            {{- toYaml .Values.podAnnotations | nindent 12 }}
+            {{- with .Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             sidecar.istio.io/inject: {{ (ternary "true" "false" .Values.istioEnabled) | quote }}
           labels:
             app.wepayout.co/version: {{ $imageTag | quote }}
