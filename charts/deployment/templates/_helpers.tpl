@@ -60,3 +60,10 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "deployment.serviceName" -}}
+{{- printf "%s.%s.svc.cluster.local" (include "deployment.fullname" .) .Release.Namespace }}
+{{- end }}
