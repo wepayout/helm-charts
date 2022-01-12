@@ -93,6 +93,11 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
+  metrics: []
+    # - type: Resource
+    #   resource:
+    #     name: memory
+    #     targetAverageUtilization: 70
 
 nodeSelector: {}
 
