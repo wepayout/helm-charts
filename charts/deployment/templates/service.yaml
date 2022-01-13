@@ -2,16 +2,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "deployment.fullname" . }}
+  name: {{ (default (include "deployment.fullname" .) .Values.service.name) }}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: {{ .Values.service.protocol }}
-      name: {{ .Values.service.name }}
+    - port: {{ .Values.service.primaryPort.number }}
+      targetPort: {{ .Values.service.primaryPort.targetPort }}
+      protocol: {{ .Values.service.primaryPort.protocol }}
+      name: {{ .Values.service.primaryPort.name }}
     {{- with .Values.service.additionalPorts }}
     {{- toYaml . | nindent 4 }}
     {{- end }}

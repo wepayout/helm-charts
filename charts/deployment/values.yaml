@@ -28,10 +28,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -42,15 +44,17 @@ securityContext: {}
 service:
   enabled: true
   type: ClusterIP
-  port: 80
-  targetPort: http
-  protocol: TCP
-  name: http
+  primaryPort:
+    number: 80
+    targetPort: http
+    protocol: TCP
+    name: http
   additionalPorts: []
 
 virtualServices:
   enabled: false
-  services: []
+  services:
+    []
     # - nameSuffix: ""
     #   hosts:
     #     - chart-example.local
@@ -68,14 +72,16 @@ virtualServices:
 
 destinationRules:
   enabled: false
-  rules: []
+  rules:
+    []
     # - nameSuffix: ""
     #   host: ""
     #   trafficPolicy: {}
     #   subsets: []
     #   exportsTo: []
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -93,7 +99,8 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
-  metrics: []
+  metrics:
+    []
     # - type: Resource
     #   resource:
     #     name: memory

@@ -65,5 +65,5 @@ Create the name of the service account to use
 Expand the name of the chart.
 */}}
 {{- define "deployment.serviceName" -}}
-{{- printf "%s.%s.svc.cluster.local" (include "deployment.fullname" .) .Release.Namespace }}
+{{- printf "%s.%s.svc.cluster.local" (default (include "deployment.fullname" .) .Values.service.name) .Release.Namespace }}
 {{- end }}

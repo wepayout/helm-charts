@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "deployment.fullname" . }}.{{ .Release.Namespace }}:{{ .Values.service.port }}']
+      args: ['{{ include "deployment.fullname" . }}.{{ .Release.Namespace }}:{{ .Values.service.primaryPort.number }}']
   restartPolicy: Never
