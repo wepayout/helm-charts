@@ -5,6 +5,10 @@ metadata:
   name: {{ include "cronjob.fullname" . }}
   labels:
     {{- include "cronjob.labels" . | nindent 4 }}
+  {{- with .Values.cronjobAnnotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   schedule: {{ required "A valid .Values.jobSchedule entry is required!" .Values.jobSchedule | quote }}
