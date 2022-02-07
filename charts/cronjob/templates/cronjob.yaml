@@ -29,10 +29,13 @@ spec:
       template:
         metadata:
           annotations:
-            {{- with .Values.podAnnotations }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
+            kubectl.kubernetes.io/default-container: {{ .Release.Name }}
             sidecar.istio.io/inject: {{ (ternary "true" "false" .Values.istioEnabled) | quote }}
+            {{- if not (eq (toJson .Values.resources) "{}") }}
+            {{- with .Values.podAnnotations }}
+            {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- end }}
           labels:
             app.wepayout.co/version: {{ $imageTag | quote }}
             {{- include "cronjob.selectorLabels" . | nindent 12 }}
