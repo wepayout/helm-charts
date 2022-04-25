@@ -10,6 +10,7 @@ metadata:
   {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  suspend: {{ .Values.suspended }}
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   schedule: {{ required "A valid .Values.jobSchedule entry is required!" .Values.jobSchedule | quote }}
   successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit }}

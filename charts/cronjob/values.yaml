@@ -76,6 +76,8 @@ parallelism: 1
 
 completions: 1
 
+suspended: false
+
 completionMode: "NonIndexed"
 
 backoffLimit: 3
