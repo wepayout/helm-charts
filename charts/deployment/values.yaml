@@ -17,8 +17,8 @@ imagePullSecrets:
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxUnavailable: 25%
-    maxSurge: 25%
+    maxUnavailable: 0%
+    maxSurge: 50%
 
 nameOverride: ""
 fullnameOverride: ""
