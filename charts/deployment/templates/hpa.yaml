@@ -15,7 +15,7 @@ spec:
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: ContainerResource
-      resource:
+      containerResource:
         container: {{ .Release.Name }}
         name: cpu
         target:
@@ -24,7 +24,7 @@ spec:
     {{- end }}
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: ContainerResource
-      resource:
+      containerResource:
         container: {{ .Release.Name }}
         name: memory
         target:
