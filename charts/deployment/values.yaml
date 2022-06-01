@@ -127,6 +127,7 @@ overrideCommand: []
 extraArgs: []
 
 initContainers: []
+additionalContainers: []
 
 livenessProbe:
   httpGet:
