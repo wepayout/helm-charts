@@ -17,10 +17,7 @@ spec:
   {{- end }}
   http:
     {{- if empty $vs.http }}
-    - match:
-        - uri:
-            prefix: "/"
-      route:
+    - route:
         - destination:
             port:
               number: {{ $.Values.service.primaryPort.number }}
