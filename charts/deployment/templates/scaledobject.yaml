@@ -10,8 +10,6 @@ spec:
   maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}
   scaleTargetRef:
     name: {{ include "deployment.fullname" . }}
-    apiVersion: apps/v1
-    kind: Deployment
   triggers:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: "cpu"
