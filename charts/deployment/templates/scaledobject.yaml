@@ -10,13 +10,15 @@ spec:
   maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}
   scaleTargetRef:
     name: {{ include "deployment.fullname" . }}
+    apiVersion: apps/v1
+    kind: Deployment
   triggers:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: "cpu"
       metricType: "Utilization"
       metadata:
         value: "{{ .Values.autoscaling.targetCPUUtilizationPercentage }}"
-        containerName: "{{ .Release.Name }}"
+        # containerName: "{{ .Release.Name }}" # not possible yet, the HPAContainerMetrics is not enabled in EKS
     {{- end }}
 
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
@@ -24,7 +26,7 @@ spec:
       metricType: "Utilization"
       metadata:
         value: "{{ .Values.autoscaling.targetMemoryUtilizationPercentage }}"
-        containerName: "{{ .Release.Name }}"
+        # containerName: "{{ .Release.Name }}" # not possible yet, the HPAContainerMetrics is not enabled in EKS
     {{- end }}
 
   {{- with .Values.autoscaling.metrics }}
