@@ -4,6 +4,9 @@ kind: ServiceMonitor
 metadata:
   name: {{ include "deployment.fullname" . }}
   labels:
+    {{- with .Values.serviceMonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
     {{- include "deployment.labels" . | nindent 4 }}
 spec:
   endpoints:

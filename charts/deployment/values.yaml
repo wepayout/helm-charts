@@ -160,6 +160,8 @@ extraObjects: []
 
 serviceMonitor:
   enabled: false
+  labels:
+    release: prometheus-operator
   endpoints:
     - honorLabels: true
       path: /stats/prometheus
