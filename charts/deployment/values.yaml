@@ -157,3 +157,15 @@ volumes: []
 volumeMounts: []
 
 extraObjects: []
+
+serviceMonitor:
+  enabled: false
+  endpoints:
+    - honorLabels: true
+      path: /stats/prometheus
+      scheme: http
+      targetPort: http-envoy-prom
+    - honorLabels: true
+      path: /stats/prometheus
+      scheme: http
+      targetPort: 80

@@ -1,0 +1,20 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "deployment.fullname" . }}
+  labels:
+    {{- include "deployment.labels" . | nindent 4 }}
+spec:
+  endpoints:
+    {{- with .Values.serviceMonitor.endpoints }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "deployment.selectorLabels" . | nindent 6 }}
+{{- end }}
