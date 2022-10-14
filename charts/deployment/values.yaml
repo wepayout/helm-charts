@@ -162,12 +162,4 @@ serviceMonitor:
   enabled: false
   labels:
     release: prometheus-operator
-  endpoints:
-    - honorLabels: true
-      path: /stats/prometheus
-      scheme: http
-      targetPort: http-envoy-prom
-    - honorLabels: true
-      path: /stats/prometheus
-      scheme: http
-      targetPort: 80
+  endpoints: []
