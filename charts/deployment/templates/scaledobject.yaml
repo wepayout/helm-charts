@@ -16,9 +16,7 @@ spec:
   fallback:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- with .Values.autoscaling.cooldownPeriod }}
-  cooldownPeriod: {{- toYaml . }}
-  {{- end }}
+  cooldownPeriod: {{ .Values.autoscaling.cooldownPeriod }}
   scaleTargetRef:
     apiVersion: "apps/v1"
     kind: "Deployment"
