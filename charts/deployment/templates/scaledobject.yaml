@@ -8,7 +8,17 @@ metadata:
 spec:
   minReplicaCount: {{ .Values.autoscaling.minReplicas }}
   maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}
+  {{- with .Values.autoscaling.advanced }}
+  advanced:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.autoscaling.fallback }}
+  fallback:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   scaleTargetRef:
+    apiVersion: "apps/v1"
+    kind: "Deployment"
     name: {{ include "deployment.fullname" . }}
   triggers:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
