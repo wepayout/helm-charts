@@ -105,6 +105,16 @@ autoscaling:
   maxReplicas: 10
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+  cooldownPeriod: 300
+  fallback:
+    {}
+    # failureThreshold: 3
+    # replicas: 6
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 60
   metrics:
     []
     # - type: Resource
