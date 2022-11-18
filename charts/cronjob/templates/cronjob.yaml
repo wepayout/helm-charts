@@ -34,7 +34,7 @@ spec:
             sidecar.istio.io/inject: {{ (ternary "true" "false" .Values.istioEnabled) | quote }}
             {{- if not (eq (toJson .Values.resources) "{}") }}
             {{- with .Values.podAnnotations }}
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
             {{- end }}
           labels:
