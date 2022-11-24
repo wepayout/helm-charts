@@ -1,0 +1,10 @@
+{{- if .Values.triggerAuthentication.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{ include "deployment.fullname" . }}
+  labels:
+    {{- include "deployment.labels" . | nindent 4 }}
+spec:
+  {{- toYaml .Values.triggerAuthentication.spec | nindent 2 }}
+{{- end }}

@@ -107,9 +107,8 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
   cooldownPeriod: 60
   fallback:
-    {}
-    # failureThreshold: 3
-    # replicas: 6
+    failureThreshold: 3
+    replicas: '{{ .Values.autoscaling.minReplicas }}'
   advanced:
     horizontalPodAutoscalerConfig:
       behavior:
@@ -121,6 +120,12 @@ autoscaling:
     #   resource:
     #     name: memory
     #     targetAverageUtilization: 70
+
+triggerAuthentication:
+  enabled: false
+  spec:
+    podIdentity:
+      provider: aws-eks
 
 nodeSelector: {}
 
