@@ -106,9 +106,9 @@ autoscaling:
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
   cooldownPeriod: 60
-  fallback:
-    failureThreshold: 3
-    replicas: '{{ .Values.autoscaling.minReplicas }}'
+  fallback: {}
+    # failureThreshold: 3
+    # replicas: 1
   advanced:
     horizontalPodAutoscalerConfig:
       behavior:
