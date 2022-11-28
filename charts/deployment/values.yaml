@@ -178,3 +178,7 @@ serviceMonitor:
   labels:
     release: prometheus-operator
   endpoints: []
+
+prometheusRules:
+  enabled: false
+  groups: []

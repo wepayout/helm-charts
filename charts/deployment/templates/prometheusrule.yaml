@@ -1,0 +1,14 @@
+{{- if .Values.prometheusRules.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "deployment.fullname" . }}
+  labels:
+    {{- include "deployment.labels" . | nindent 4 }}
+    release: prometheus-operator
+spec:
+  {{- with .Values.prometheusRules.groups }}
+  groups:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
