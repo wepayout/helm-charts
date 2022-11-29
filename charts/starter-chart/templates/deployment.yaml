@@ -13,12 +13,12 @@ spec:
       {{- include "<CHARTNAME>.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        app.wepayments.com.br/version: {{ required "A valid .Values.image.tag entry is required!" .Values.image.tag | quote }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.wepayout.co/version: {{ required "A valid .Values.image.tag entry is required!" .Values.image.tag | quote }}
         {{- include "<CHARTNAME>.selectorLabels" . | nindent 8 }}
     spec:
       # Image pull secrets, used to download images from the registry (e.g. DockerHub)

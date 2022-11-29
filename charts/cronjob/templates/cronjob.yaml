@@ -19,7 +19,6 @@ spec:
     metadata:
       name: {{ include "cronjob.fullname" . }}
       labels:
-        app.wepayout.co/version: {{ $imageTag | quote }}
         {{- include "cronjob.selectorLabels" . | nindent 8 }}
     spec:
       parallelism: {{ .Values.parallelism }}
@@ -30,6 +29,7 @@ spec:
       template:
         metadata:
           annotations:
+            app.wepayments.com.br/version: {{ $imageTag | quote }}
             kubectl.kubernetes.io/default-container: {{ .Release.Name }}
             sidecar.istio.io/inject: {{ (ternary "true" "false" .Values.istioEnabled) | quote }}
             {{- if not (eq (toJson .Values.resources) "{}") }}
@@ -38,7 +38,6 @@ spec:
             {{- end }}
             {{- end }}
           labels:
-            app.wepayout.co/version: {{ $imageTag | quote }}
             {{- include "cronjob.selectorLabels" . | nindent 12 }}
         spec:
           # Image pull secrets, used to download images from the registry (e.g. DockerHub)
