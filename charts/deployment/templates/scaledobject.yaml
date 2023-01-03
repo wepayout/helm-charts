@@ -5,6 +5,10 @@ metadata:
   name: {{ include "deployment.fullname" . }}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
+  {{- with .Values.autoscaling.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   minReplicaCount: {{ .Values.autoscaling.minReplicas }}
   maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}

@@ -101,6 +101,7 @@ resources:
 
 autoscaling:
   enabled: false
+  annotations: {}
   minReplicas: 1
   maxReplicas: 10
   # targetCPUUtilizationPercentage: 80
