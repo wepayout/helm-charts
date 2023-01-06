@@ -20,7 +20,7 @@ spec:
     metadata:
       annotations:
         app.wepayments.com.br/version: {{ $imageTag | quote }}
-        kubectl.kubernetes.io/default-container: {{ .Release.Name }}
+        kubectl.kubernetes.io/default-container: {{ .Values.defaultContainerName | default .Release.Name | quote }}
         {{- if not (eq (toJson .Values.resources) "{}") }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -47,6 +47,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
+          name: {{ .Values.defaultContainerName | default .Release.Name | quote }}
           {{- with .Values.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
