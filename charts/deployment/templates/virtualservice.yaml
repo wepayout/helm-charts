@@ -6,6 +6,8 @@ metadata:
   name: {{ (include "deployment.fullname" $) }}{{ (ternary (print "-" $vs.nameSuffix) "" (not (empty $vs.nameSuffix))) }}
   labels:
     {{- include "deployment.labels" $ | nindent 4 }}
+  annotations:
+    app.wepayments.com.br/version: {{ .Values.image.tag | quote }}
 spec:
   {{- with $vs.hosts }}
   hosts:

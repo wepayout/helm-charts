@@ -5,6 +5,8 @@ metadata:
   name: {{ include "deployment.fullname" . }}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
+  annotations:
+    app.wepayments.com.br/version: {{ .Values.image.tag | quote }}
 spec:
   {{- toYaml .Values.triggerAuthentication.spec | nindent 2 }}
 {{- end }}

@@ -6,6 +6,8 @@ metadata:
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
     release: prometheus-operator
+  annotations:
+    app.wepayments.com.br/version: {{ .Values.image.tag | quote }}
 spec:
   {{- with .Values.prometheusRules.groups }}
   groups:

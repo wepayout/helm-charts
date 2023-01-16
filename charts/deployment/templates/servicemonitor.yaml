@@ -8,6 +8,8 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- include "deployment.labels" . | nindent 4 }}
+  annotations:
+    app.wepayments.com.br/version: {{ .Values.image.tag | quote }}
 spec:
   endpoints:
     {{- with .Values.serviceMonitor.endpoints }}
