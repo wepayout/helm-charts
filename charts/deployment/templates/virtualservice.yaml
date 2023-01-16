@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "deployment.labels" $ | nindent 4 }}
   annotations:
-    app.wepayments.com.br/version: {{ .Values.image.tag | quote }}
+    app.wepayments.com.br/version: {{ $.Values.image.tag | quote }}
 spec:
   {{- with $vs.hosts }}
   hosts:
