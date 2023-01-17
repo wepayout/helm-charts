@@ -104,3 +104,5 @@ volumeMounts: []
 istioEnabled: false
 
 extraObjects: []
+
+defaultContainerName:
