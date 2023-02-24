@@ -1,4 +1,5 @@
 {{ $imageTag := required "A valid .Values.image.tag entry is required!" .Values.image.tag }}
+{{ $imageRepository := required "A valid .Values.image.repository entry is required!" .Values.image.repository }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,6 +29,9 @@ spec:
         {{- end }}
       labels:
         {{- include "deployment.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       # Image pull secrets, used to download images from the registry (e.g. DockerHub)
       {{- with .Values.imagePullSecrets }}
@@ -51,7 +55,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ required "A valid .Values.image.repository entry is required!" .Values.image.repository }}:{{ $imageTag }}"
+          image: "{{ $imageRepository }}:{{ $imageTag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.containerPorts }}
           ports:
