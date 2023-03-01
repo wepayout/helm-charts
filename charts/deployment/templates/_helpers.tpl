@@ -40,9 +40,6 @@ helm.sh/chart: {{ include "deployment.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- with .Values.deploymentLabels }}
-{{- toYaml . }}
-{{- end }}
 {{- end }}
 
 {{/*
