@@ -3,7 +3,11 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
+  {{- if not (empty $vs.name) }}
+  name: {{ $vs.name }}
+  {{- else }}
   name: {{ (include "deployment.fullname" $) }}{{ (ternary (print "-" $vs.nameSuffix) "" (not (empty $vs.nameSuffix))) }}
+  {{- end }}
   labels:
     {{- include "deployment.labels" $ | nindent 4 }}
   annotations:
