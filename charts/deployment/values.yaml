@@ -58,6 +58,9 @@ service:
     protocol: TCP
     name: http
   additionalPorts: []
+  overrideLabels:
+    enabled: false
+    labels: {}
 
 virtualServices:
   enabled: false

@@ -16,5 +16,10 @@ spec:
     {{- toYaml . | nindent 4 }}
     {{- end }}
   selector:
+    {{- if .Values.service.overrideLabels.enabled }}
+    {{- with .Values.service.overrideLabels.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- else }}
     {{- include "deployment.selectorLabels" . | nindent 4 }}
+    {{- end }}
 {{- end }}
