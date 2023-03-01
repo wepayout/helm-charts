@@ -21,6 +21,6 @@ spec:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- else }}
-    {{- include "deployment.selectorLabels" . | nindent 4 }}
+    {{- include "deployment.canaryNameLabels" . | nindent 4 }}
     {{- end }}
 {{- end }}

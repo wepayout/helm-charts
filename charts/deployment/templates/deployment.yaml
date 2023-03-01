@@ -1,11 +1,13 @@
 {{ $imageTag := required "A valid .Values.image.tag entry is required!" .Values.image.tag }}
 {{ $imageRepository := required "A valid .Values.image.repository entry is required!" .Values.image.repository }}
+{{ $resources := required "A valid .Values.resources entry is required!" (ternary nil .Values.resources (eq (toJson .Values.resources) "{}")) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "deployment.fullname" . }}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
+    {{- include "deployment.canaryLabels" . | nindent 4 }}
     {{- with .Values.deploymentLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
@@ -25,20 +27,14 @@ spec:
       annotations:
         app.wepayments.com.br/version: {{ $imageTag | quote }}
         kubectl.kubernetes.io/default-container: {{ .Values.defaultContainerName | default .Release.Name | quote }}
-        {{- if not (eq (toJson .Values.resources) "{}") }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- end }}
       labels:
         {{- include "deployment.selectorLabels" . | nindent 8 }}
+        {{- include "deployment.canaryLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- if .Values.service.overrideLabels.enabled }}
-        {{- with .Values.service.overrideLabels.labels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
         {{- end }}
     spec:
       # Image pull secrets, used to download images from the registry (e.g. DockerHub)
@@ -86,7 +82,7 @@ spec:
           {{- end }}
           # Container resource usage
           resources:
-            {{- toYaml (required "A valid .Values.resources entry is required!" (ternary nil .Values.resources (eq (toJson .Values.resources) "{}"))) | nindent 12 }}
+            {{- toYaml $resources | nindent 12 }}
           {{- with .Values.extraEnv }}
           # Extra env
           env:

@@ -38,6 +38,10 @@ podLabels: {}
 
 deploymentLabels: {}
 
+canary:
+  name: ""
+  version: "current"
+
 podSecurityContext:
   {}
   # fsGroup: 2000

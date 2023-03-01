@@ -51,6 +51,21 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Canary name label
+*/}}
+{{- define "deployment.canaryNameLabels" -}}
+canary.istio.io/name: {{ .Values.canary.name | default (include "deployment.fullname" .) }}
+{{- end }}
+
+{{/*
+Canary labels
+*/}}
+{{- define "deployment.canaryLabels" -}}
+{{ include "deployment.canaryNameLabels" . }}
+canary.istio.io/version: {{ .Values.canary.version | default "current" }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "deployment.serviceAccountName" -}}
