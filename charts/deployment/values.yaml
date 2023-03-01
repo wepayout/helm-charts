@@ -86,7 +86,8 @@ destinationRules:
   enabled: false
   rules:
     []
-    # - nameSuffix: ""
+    # - name: ""
+    #   nameSuffix: ""
     #   host: ""
     #   trafficPolicy: {}
     #   subsets: []

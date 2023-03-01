@@ -3,7 +3,11 @@
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
+  {{- if not (empty .name) }}
+  name: {{ .name }}
+  {{- else }}
   name: {{ (include "deployment.fullname" $) }}{{ (ternary (print "-" .nameSuffix) "" (not (empty .nameSuffix))) }}
+  {{- end }}
   labels:
     {{- include "deployment.labels" $ | nindent 4 }}
   annotations:
