@@ -34,9 +34,7 @@ serviceAccount:
 
 podAnnotations: {}
 
-podLabels:
-  app: ""
-  version: "current"
+podLabels: {}
 
 deploymentLabels: {}
 
