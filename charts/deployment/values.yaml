@@ -34,12 +34,14 @@ serviceAccount:
 
 podAnnotations: {}
 
-podLabels: {}
+podLabels:
+  app: ""
+  version: "current"
 
 deploymentLabels: {}
 
-canary:
-  name: ""
+istio:
+  app: ""
   version: "current"
 
 podSecurityContext:

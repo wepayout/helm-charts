@@ -5,6 +5,7 @@ metadata:
   name: {{ (default (include "deployment.fullname" .) .Values.service.name) }}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
+    {{- include "deployment.istioNameLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -21,6 +22,6 @@ spec:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- else }}
-    {{- include "deployment.canaryNameLabels" . | nindent 4 }}
+    {{- include "deployment.istioNameLabels" . | nindent 4 }}
     {{- end }}
 {{- end }}
