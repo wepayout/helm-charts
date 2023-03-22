@@ -177,6 +177,8 @@ readinessProbe:
 
 startupProbe: ~
 
+containerLifecycle: ~
+
 containerPorts:
   - name: http
     containerPort: 80
