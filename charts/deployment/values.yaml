@@ -199,3 +199,5 @@ serviceMonitor:
 prometheusRules:
   enabled: false
   groups: []
+
+terminationGracePeriodSeconds: 30

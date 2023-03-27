@@ -136,3 +136,7 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.terminationGracePeriodSeconds }}
+      # Pod volumes
+      terminationGracePeriodSeconds: {{ . }}
+      {{- end }}

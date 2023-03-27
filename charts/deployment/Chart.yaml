@@ -3,4 +3,4 @@ appVersion: 0.2.0
 description: A Helm chart for a generic deployment with Istio service mesh created by WePayOut.
 name: deployment
 type: application
-version: 0.2.38
+version: 0.2.39
