@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.nodeTemplate.name }}
   labels:
     {{- include "provisioner.labels" . | nindent 4 }}
-{{- with .Values.spec }}
+{{- with .Values.nodeTemplate.spec }}
 spec:
   {{- toYaml . | nindent 2 }}
 {{- end }}
