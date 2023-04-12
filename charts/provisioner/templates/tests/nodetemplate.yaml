@@ -3,6 +3,8 @@ apiVersion: karpenter.k8s.aws/v1alpha1
 kind: AWSNodeTemplate
 metadata:
   name: {{ .Values.nodeTemplate.name }}
+  labels:
+    {{- include "provisioner.labels" . | nindent 4 }}
 {{- with .Values.spec }}
 spec:
   {{- toYaml . | nindent 2 }}
