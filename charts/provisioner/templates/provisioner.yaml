@@ -44,4 +44,7 @@ spec:
   {{- end }}
 
   ttlSecondsUntilExpired: {{ .Values.ttlSecondsUntilExpired }}
-  ttlSecondsAfterEmpty: {{ .Values.ttlSecondsAfterEmpty }}
+
+  {{- with .Values.ttlSecondsAfterEmpty }}
+  ttlSecondsAfterEmpty: {{ . }}
+  {{- end }}
