@@ -817,6 +817,16 @@ entries:
   provisioner:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2023-04-12T20:04:39.571144205Z"
+    description: A Helm chart for Karpenter Provisioner creation
+    digest: 8b958e9ade82864baa1a50aab9587696fd788e1e5428c6ecac7a698dfab1c6f1
+    name: provisioner
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/provisioner-0.1.5/provisioner-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2023-04-12T19:54:45.58749632Z"
     description: A Helm chart for Karpenter Provisioner creation
     digest: 0a349d16ad053c8527dc6bb9d416b2f9828f0608a0de37e4ab6f3f7139461f04
@@ -900,4 +910,4 @@ entries:
     urls:
     - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.0/starter-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-12T19:54:45.589109182Z"
+generated: "2023-04-12T20:04:39.571480707Z"
