@@ -1,0 +1,10 @@
+{{- if .Values.nodeTemplate.create }}
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: {{ .Values.nodeTemplate.name }}
+{{- with .Values.spec }}
+spec:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
