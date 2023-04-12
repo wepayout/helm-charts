@@ -4,7 +4,7 @@ metadata:
   name: {{ include "provisioner.fullname" . }}
 spec:
   providerRef:
-    name: {{ .Values.nodeTemplateName }}
+    name: {{ .Values.nodeTemplate.name }}
 
   {{- with .Values.taints }}
   taints:
