@@ -74,9 +74,11 @@ spec:
               startupProbe:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
+              {{- with .Values.resources }}
               # Container resource usage
               resources:
-                {{- toYaml (required "A valid .Values.resources entry is required!" (ternary nil .Values.resources (eq (toJson .Values.resources) "{}"))) | nindent 16 }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
               {{- with .Values.extraEnv }}
               # Extra env
               env:
