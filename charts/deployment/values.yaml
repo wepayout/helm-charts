@@ -201,3 +201,8 @@ prometheusRules:
   groups: []
 
 terminationGracePeriodSeconds: 30
+
+podDisruptionBudget:
+  enabled: false
+  # minAvailable: 80%
+  # maxUnavailable: 20%
