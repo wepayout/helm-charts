@@ -159,21 +159,21 @@ extraArgs: []
 initContainers: []
 additionalContainers: []
 
-livenessProbe:
-  httpGet:
-    path: /health-check/
-    port: http
-  initialDelaySeconds: 5
-  timeoutSeconds: 5
-  periodSeconds: 15
+livenessProbe: []
+  # httpGet:
+  #   path: /health-check/
+  #   port: http
+  # initialDelaySeconds: 5
+  # timeoutSeconds: 5
+  # periodSeconds: 15
 
-readinessProbe:
-  httpGet:
-    path: /health-check/
-    port: http
-  initialDelaySeconds: 5
-  timeoutSeconds: 5
-  periodSeconds: 15
+readinessProbe: []
+  # httpGet:
+  #   path: /health-check/
+  #   port: http
+  # initialDelaySeconds: 5
+  # timeoutSeconds: 5
+  # periodSeconds: 15
 
 startupProbe: ~
 
