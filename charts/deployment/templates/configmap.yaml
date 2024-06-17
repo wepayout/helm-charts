@@ -1,0 +1,12 @@
+{{- if .Values.configMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ (default (include "deployment.fullname" .) .Values.service.name) }}
+  namespace: {{ .Values.namespace }}
+immutable: {{ .Values.configMap.immutable }}
+data:
+  {{- with .Values.configMap.data }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}    
+{{- end }}
