@@ -14,11 +14,11 @@ image:
 imagePullSecrets:
   - name: "docker-registry"
 
-strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 0%
-    maxSurge: 50%
+strategy: []
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxUnavailable: 0%
+  #   maxSurge: 50%
 
 nameOverride: ""
 fullnameOverride: ""
