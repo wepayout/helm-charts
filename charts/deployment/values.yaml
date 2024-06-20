@@ -14,7 +14,7 @@ image:
 imagePullSecrets:
   - name: "docker-registry"
 
-strategy: []
+strategy: {}
   # type: RollingUpdate
   # rollingUpdate:
   #   maxUnavailable: 0%
@@ -159,7 +159,7 @@ extraArgs: []
 initContainers: []
 additionalContainers: []
 
-livenessProbe: []
+livenessProbe: {}
   # httpGet:
   #   path: /health-check/
   #   port: http
@@ -167,7 +167,7 @@ livenessProbe: []
   # timeoutSeconds: 5
   # periodSeconds: 15
 
-readinessProbe: []
+readinessProbe: {}
   # httpGet:
   #   path: /health-check/
   #   port: http
