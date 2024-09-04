@@ -3,4 +3,4 @@ appVersion: 0.1.0
 description: A Helm chart for a generic CronJob with Istio service mesh created by WePayOut.
 name: cronjob
 type: application
-version: 0.1.15
+version: 0.1.16
