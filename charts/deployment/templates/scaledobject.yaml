@@ -44,6 +44,16 @@ spec:
         # containerName: "{{ .Release.Name }}" # not possible yet, the HPAContainerMetrics is not enabled in EKS
     {{- end }}
 
+    {{- if .Values.autoscaling.sqs }}
+    - type: "aws-sqs-queue"
+      authenticationRef:
+        name: keda-trigger-auth-aws-credentials
+      metadata:
+        queueURL: "{{ .Values.autoscaling.sqs.queueURL }}"
+        queueLength: "{{ .Values.autoscaling.sqs.queueLength }}"
+        awsRegion: "{{ .Values.autoscaling.sqs.awsRegion }}"
+    {{- end }}
+
   {{- with .Values.autoscaling.metrics }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
