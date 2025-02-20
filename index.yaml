@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  argocd-apps:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2025-02-20T19:29:45.445121574Z"
+    description: Helm chart para gerenciar Applications do ArgoCD
+    digest: c9117cc03306530e635a266fcbe08395e8e79cc8d4355b88bc8256677d0319cc
+    name: argocd-apps
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/argocd-apps-0.1.0/argocd-apps-0.1.0.tgz
+    version: 0.1.0
   cronjob:
   - apiVersion: v2
     appVersion: 0.1.0
@@ -1039,4 +1050,4 @@ entries:
     urls:
     - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.0/starter-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-31T20:26:28.567777325Z"
+generated: "2025-02-20T19:29:45.44534875Z"
