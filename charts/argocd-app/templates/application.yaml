@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ include "argocd-app.fullname" . }}
+  namespace: argocd
+  {{- if .Values.finalizers }}
+  finalizers:
+    {{- range .Values.finalizers }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- if .Values.labels }}
+  labels:
+    {{ include "argocd-app.labels" . | nindent 4 }}
+  {{- end }}
+spec:
+  project: {{ .Values.project }}
+  destination:
+    namespace: {{ .Values.destinationNamespace }}
+    server: {{ .Values.server | default "https://kubernetes.default.svc" }}
+
+  source:
+    repoURL: {{ .Values.repoURL }}
+    targetRevision: {{ .Values.targetRevision }}
+    path: {{ .Values.path }}
+    {{- if .Values.helm }}
+    helm:
+      {{- if .Values.helm.valueFiles }}
+      valueFiles:
+        {{- range .Values.helm.valueFiles }}
+        - {{ . }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.helm.parameters }}
+      parameters:
+        {{- range .Values.helm.parameters }}
+        - name: {{ .name }}
+          value: {{ .value | quote }}
+          {{- if .forceString }}
+          forceString: true
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.helm.releaseName }}
+      releaseName: {{ .Values.helm.releaseName }}
+      {{- end }}
+    {{- end }}
+
+  {{- if .Values.syncPolicy }}
+  syncPolicy:
+    {{- if hasKey .Values.syncPolicy "automated" }}
+    automated:
+      {{- if hasKey .Values.syncPolicy.automated "prune" }}
+      prune: {{ .Values.syncPolicy.automated.prune }}
+      {{- end }}
+      {{- if hasKey .Values.syncPolicy.automated "selfHeal" }}
+      selfHeal: {{ .Values.syncPolicy.automated.selfHeal }}
+      {{- end }}
+    {{- end }}
+    {{- if hasKey .Values.syncPolicy "syncOptions" }}
+    syncOptions:
+      {{- range .Values.syncPolicy.syncOptions }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}

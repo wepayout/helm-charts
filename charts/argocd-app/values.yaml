@@ -1,0 +1,46 @@
+# Nome da aplicação no ArgoCD
+appName: heimdall-staging
+
+# Nome do projeto no ArgoCD
+project: authorization
+
+# Namespace onde a aplicação será implantada
+destinationNamespace: authorization
+
+# URL do repositório Git onde o código da aplicação está armazenado
+repoURL: git@gitlab.com:seu-repo/app-repo.git
+
+# Branch ou tag do repositório a ser monitorado pelo ArgoCD
+targetRevision: stage
+
+# Caminho dentro do repositório onde está localizado o Helm Chart
+path: helm-charts/deployment
+
+# Endereço do servidor Kubernetes onde a aplicação será implantada
+server: "https://kubernetes.default.svc"
+
+# Labels adicionais para a aplicação
+labels:
+  squad: plataforma
+  owner: devops
+
+# Configuração específica para Helm
+helm:
+  valueFiles:
+    - values.yaml
+    - values-staging.yaml
+  parameters:
+    - name: "replicaCount"
+      value: "2"
+    - name: "image.tag"
+      value: "latest"
+  releaseName: "heimdall"
+
+# Política de sincronização do ArgoCD
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - PruneLast=true
+    - ApplyOutOfSyncOnly=true
