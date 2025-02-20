@@ -1,0 +1,29 @@
+# Nome da aplicação no ArgoCD
+appName: ""
+
+# Labels personalizadas para a aplicação
+labels: {}
+
+# Destino onde a aplicação será implantada
+destination:
+  namespace: ""
+  server: "https://kubernetes.default.svc"
+
+# Nome do projeto no ArgoCD
+project: ""
+
+# Configuração do repositório da aplicação
+source:
+  path: ""
+  repoURL: ""
+  targetRevision: "" # Branch ou tag a ser monitorada
+
+  # Configuração para Helm
+  helm:
+    valueFiles: []  # Lista de arquivos de valores do Helm
+
+# Política de sincronização do ArgoCD
+syncPolicy:
+  automated:
+    prune: false
+    selfHeal: false
