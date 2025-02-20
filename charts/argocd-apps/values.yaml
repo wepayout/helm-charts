@@ -1,111 +1,29 @@
-# Default values for argocd-apps.
-# Este é um arquivo YAML formatado corretamente.
-# Ele define as variáveis que serão usadas pelo template `application.yaml`.
-
 # Nome da aplicação no ArgoCD
 appName: ""
 
-# Namespace onde a aplicação será criada dentro do ArgoCD
-namespace: "argocd"
-
-# Finalizers do ArgoCD (opcional)
-finalizers: []
-
-# Labels adicionais para a aplicação (pares chave-valor)
+# Labels personalizadas para a aplicação
 labels: {}
-
-# Nome do projeto no ArgoCD
-project: ""
 
 # Destino onde a aplicação será implantada
 destination:
   namespace: ""
-  server: "https://kubernetes.default.svc" # Pode ser substituído por um cluster externo
+  server: "https://kubernetes.default.svc"
+
+# Nome do projeto no ArgoCD
+project: ""
 
 # Configuração do repositório da aplicação
 source:
+  path: ""
   repoURL: ""
   targetRevision: "" # Branch ou tag a ser monitorada
-  path: "" # Caminho do Helm Chart ou dos manifests dentro do repositório
 
-  # Configurações específicas para Helm
+  # Configuração para Helm
   helm:
-    chart: "" # Nome do chart caso esteja em um repositório de charts Helm
-    passCredentials: false
-    valueFiles: []
-    parameters: []
-    fileParameters: []
-    releaseName: ""
-    ignoreMissingValueFiles: false
-    values: ""
-    valuesObject: {}
-    skipCrds: false
-    skipSchemaValidation: false
-    version: "" # Versão do Helm (v2 ou v3)
-    kubeVersion: ""
-    apiVersions: []
-    namespace: ""
+    valueFiles: []  # Lista de arquivos de valores do Helm
 
-  # Configuração para Kustomize
-  kustomize:
-    version: ""
-    namePrefix: ""
-    nameSuffix: ""
-    commonLabels: {}
-    commonAnnotations: {}
-    commonAnnotationsEnvsubst: false
-    forceCommonLabels: false
-    forceCommonAnnotations: false
-    images: []
-    namespace: ""
-    replicas: []
-    components: []
-    patches: []
-    kubeVersion: ""
-    apiVersions: []
-
-  # Configuração para diretórios de manifestos
-  directory:
-    recurse: true
-    jsonnet:
-      extVars: []
-      tlas: []
-    exclude: ""
-    include: ""
-
-  # Configuração para plugins do ArgoCD
-  plugin:
-    name: ""
-    env: []
-    parameters: []
-
-# Destino alternativo para múltiplas fontes
-sources: []
-
-# Configuração da política de sincronização do ArgoCD
+# Política de sincronização do ArgoCD
 syncPolicy:
   automated:
     prune: false
     selfHeal: false
-    allowEmpty: false
-  syncOptions:
-    - Validate=false
-    - PrunePropagationPolicy=foreground
-    - PruneLast=true
-    - RespectIgnoreDifferences=true
-    - ApplyOutOfSyncOnly=true
-  managedNamespaceMetadata:
-    labels: {}
-    annotations: {}
-  retry:
-    limit: 5
-    backoff:
-      duration: "5s"
-      factor: 2
-      maxDuration: "3m"
-
-# Configuração de diferenças ignoradas no ArgoCD
-ignoreDifferences: []
-
-# Histórico de revisões da aplicação
-revisionHistoryLimit: 10

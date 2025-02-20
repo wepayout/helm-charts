@@ -1,130 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Values.appName }}
-  namespace: {{ .Values.namespace | default "argocd" }}
-  {{- if .Values.finalizers }}
-  finalizers:
-    {{- range .Values.finalizers }}
-    - {{ . }}
-    {{- end }}
-  {{- end }}
+  name: {{ include "argocd-app.fullname" . }}
+  namespace: argocd
   {{- if .Values.labels }}
   labels:
-    {{ toYaml .Values.labels | nindent 4 }}
+    {{- range $key, $value := .Values.labels }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
   {{- end }}
 spec:
-  project: {{ .Values.project }}
-
   destination:
     namespace: {{ .Values.destination.namespace }}
     server: {{ .Values.destination.server | default "https://kubernetes.default.svc" }}
 
+  project: {{ .Values.project }}
+
   source:
+    path: {{ .Values.source.path }}
     repoURL: {{ .Values.source.repoURL }}
     targetRevision: {{ .Values.source.targetRevision }}
-    path: {{ .Values.source.path }}
-
-    {{- if .Values.source.chart }}
-    chart: {{ .Values.source.chart }}
-    {{- end }}
 
     {{- if .Values.source.helm }}
     helm:
-      passCredentials: {{ .Values.source.helm.passCredentials | default false }}
       {{- if .Values.source.helm.valueFiles }}
       valueFiles:
         {{- range .Values.source.helm.valueFiles }}
         - {{ . }}
         {{- end }}
-      {{- end }}
-      {{- if .Values.source.helm.parameters }}
-      parameters:
-        {{- range .Values.source.helm.parameters }}
-        - name: {{ .name }}
-          value: {{ .value | quote }}
-          {{- if .forceString }}
-          forceString: true
-          {{- end }}
-        {{- end }}
-      {{- end }}
-      {{- if .Values.source.helm.fileParameters }}
-      fileParameters:
-        {{- range .Values.source.helm.fileParameters }}
-        - name: {{ .name }}
-          path: {{ .path }}
-        {{- end }}
-      {{- end }}
-      {{- if .Values.source.helm.releaseName }}
-      releaseName: {{ .Values.source.helm.releaseName }}
-      {{- end }}
-      ignoreMissingValueFiles: {{ .Values.source.helm.ignoreMissingValueFiles | default false }}
-      {{- if .Values.source.helm.values }}
-      values: |
-        {{ .Values.source.helm.values | nindent 8 }}
-      {{- end }}
-      {{- if .Values.source.helm.valuesObject }}
-      valuesObject:
-        {{ toYaml .Values.source.helm.valuesObject | nindent 8 }}
-      {{- end }}
-      skipCrds: {{ .Values.source.helm.skipCrds | default false }}
-      skipSchemaValidation: {{ .Values.source.helm.skipSchemaValidation | default false }}
-      {{- if .Values.source.helm.version }}
-      version: {{ .Values.source.helm.version }}
-      {{- end }}
-      {{- if .Values.source.helm.kubeVersion }}
-      kubeVersion: {{ .Values.source.helm.kubeVersion }}
-      {{- end }}
-      {{- if .Values.source.helm.apiVersions }}
-      apiVersions:
-        {{- range .Values.source.helm.apiVersions }}
-        - {{ . }}
-        {{- end }}
-      {{- end }}
-      {{- if .Values.source.helm.namespace }}
-      namespace: {{ .Values.source.helm.namespace }}
-      {{- end }}
-    {{- end }}
-
-    {{- if .Values.source.kustomize }}
-    kustomize:
-      {{- if .Values.source.kustomize.version }}
-      version: {{ .Values.source.kustomize.version }}
-      {{- end }}
-      {{- if .Values.source.kustomize.namePrefix }}
-      namePrefix: {{ .Values.source.kustomize.namePrefix }}
-      {{- end }}
-      {{- if .Values.source.kustomize.nameSuffix }}
-      nameSuffix: {{ .Values.source.kustomize.nameSuffix }}
-      {{- end }}
-      {{- if .Values.source.kustomize.commonLabels }}
-      commonLabels:
-        {{ toYaml .Values.source.kustomize.commonLabels | nindent 8 }}
-      {{- end }}
-      {{- if .Values.source.kustomize.commonAnnotations }}
-      commonAnnotations:
-        {{ toYaml .Values.source.kustomize.commonAnnotations | nindent 8 }}
-      {{- end }}
-      forceCommonLabels: {{ .Values.source.kustomize.forceCommonLabels | default false }}
-      forceCommonAnnotations: {{ .Values.source.kustomize.forceCommonAnnotations | default false }}
-      {{- if .Values.source.kustomize.images }}
-      images:
-        {{ toYaml .Values.source.kustomize.images | nindent 8 }}
-      {{- end }}
-      {{- if .Values.source.kustomize.replicas }}
-      replicas:
-        {{ toYaml .Values.source.kustomize.replicas | nindent 8 }}
-      {{- end }}
-      {{- if .Values.source.kustomize.patches }}
-      patches:
-        {{ toYaml .Values.source.kustomize.patches | nindent 8 }}
-      {{- end }}
-      {{- if .Values.source.kustomize.kubeVersion }}
-      kubeVersion: {{ .Values.source.kustomize.kubeVersion }}
-      {{- end }}
-      {{- if .Values.source.kustomize.apiVersions }}
-      apiVersions:
-        {{ toYaml .Values.source.kustomize.apiVersions | nindent 8 }}
       {{- end }}
     {{- end }}
 
@@ -134,48 +37,5 @@ spec:
     automated:
       prune: {{ .Values.syncPolicy.automated.prune | default false }}
       selfHeal: {{ .Values.syncPolicy.automated.selfHeal | default false }}
-      allowEmpty: {{ .Values.syncPolicy.automated.allowEmpty | default false }}
-    {{- end }}
-    {{- if .Values.syncPolicy.syncOptions }}
-    syncOptions:
-      {{- range .Values.syncPolicy.syncOptions }}
-      - {{ . }}
-      {{- end }}
-    {{- end }}
-    {{- if .Values.syncPolicy.retry }}
-    retry:
-      limit: {{ .Values.syncPolicy.retry.limit | default 5 }}
-      backoff:
-        duration: {{ .Values.syncPolicy.retry.backoff.duration | default "5s" }}
-        factor: {{ .Values.syncPolicy.retry.backoff.factor | default 2 }}
-        maxDuration: {{ .Values.syncPolicy.retry.backoff.maxDuration | default "3m" }}
     {{- end }}
   {{- end }}
-
-  {{- if .Values.ignoreDifferences }}
-  ignoreDifferences:
-    {{- range .Values.ignoreDifferences }}
-    - group: {{ .group | quote }}
-      kind: {{ .kind | quote }}
-      {{- if .jsonPointers }}
-      jsonPointers:
-        {{ toYaml .jsonPointers | nindent 8 }}
-      {{- end }}
-      {{- if .jqPathExpressions }}
-      jqPathExpressions:
-        {{ toYaml .jqPathExpressions | nindent 8 }}
-      {{- end }}
-      {{- if .managedFieldsManagers }}
-      managedFieldsManagers:
-        {{ toYaml .managedFieldsManagers | nindent 8 }}
-      {{- end }}
-      {{- if .name }}
-      name: {{ .name }}
-      {{- end }}
-      {{- if .namespace }}
-      namespace: {{ .namespace }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-
-  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 10 }}
