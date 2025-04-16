@@ -206,3 +206,48 @@ podDisruptionBudget:
   enabled: false
   # minAvailable: 80%
   # maxUnavailable: 20%
+
+## Configuração do SLO
+slo:
+  enabled: false      # Habilita/desabilita a criação do SLO
+  
+  ## Metadados básicos
+  name: ""
+  namespace: ""  # Opcional - usa .Release.Namespace se não definido
+  description: ""
+  summary: ""
+  sloType: ""  # Tipo do SLO (availability/latency/bool)
+  
+  ## Configurações do SLO
+  target: ""     # Target em % (99.9 = 99.9%)
+  window: ""       # Janela de avaliação (1d, 1w, 4w)
+  alertingDisabled: false  # Se true, desabilita alertas
+  
+  ## Métricas (usar --set-string para preservar formatação)
+  errorsMetric: |
+    sum(rate(istio_requests_total{
+      <app_name>="",
+      response_code=~"5.."
+    }[1m]))
+  
+  totalMetric: |
+    sum(rate(istio_requests_total{
+      <app_name>=""
+    }[1m]))
+  
+  ## Agrupamento (opcional)
+  grouping: 
+    - ""
+  
+  ## Links e documentação
+  runbookUrl: ""
+  
+  ## Labels e annotations adicionais
+  labels:
+    team: ""
+    severity: ""
+    app.kubernetes.io/component: "slo"
+  
+  annotations:
+    monitoring.wepayout.com/severity: ""
+    implemented-by: ""
