@@ -1,0 +1,63 @@
+{{- if .Values.slo.enabled }}
+{{- $slo := .Values.slo }}
+{{- $requiredMsg := "A valid .Values.slo.%s entry is required!" }}
+{{- $name := required (printf $requiredMsg "name") $slo.name }}
+{{- $target := required (printf $requiredMsg "target") $slo.target }}
+{{- $window := required (printf $requiredMsg "window") $slo.window }}
+{{- $indicatorType := required (printf $requiredMsg "indicatorType") $slo.indicatorType }}
+{{- $errorsMetric := required (printf $requiredMsg "errorsMetric") (trim $slo.errorsMetric) }}
+{{- $totalMetric := required (printf $requiredMsg "totalMetric") (trim $slo.totalMetric) }}
+{{- $description := $slo.description | default "SLO description not provided" }}
+{{- $summary := $slo.summary | default "SLO summary not provided" }}
+{{- $sloType := $slo.sloType | default "availability" }}
+{{- $alertingDisabled := $slo.alertingDisabled | default false }}
+{{- $runbookUrl := $slo.runbookUrl | default "" }}
+
+apiVersion: pyrra.dev/v1alpha1
+kind: ServiceLevelObjective
+metadata:
+  name: {{ $name | quote }}
+  labels:
+    {{- include "deployment.labels" . | nindent 4 }}
+    {{- with $slo.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    pyrra.dev/slo_description: {{ $sloType | quote }}  {{/* Tipo de SLO, não description */}}
+  annotations:
+    {{- with $slo.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    pyrra.dev/description: {{ $description | quote }}
+    pyrra.dev/summary: {{ $summary | quote }}
+    {{- if $runbookUrl }}
+    pyrra.dev/runbook_url: {{ $runbookUrl | quote }}
+    {{- end }}
+spec:
+  alerting:
+    disabled: {{ $alertingDisabled }}
+  target: {{ $target | quote }}
+  window: {{ $window | quote }}
+  description: {{ $summary | quote }}
+  indicator:
+    {{- if eq $indicatorType "ratio" }}
+    ratio:
+      {{- if $slo.grouping }}
+      grouping:
+        {{- toYaml $slo.grouping | nindent 8 }}
+      {{- end }}
+      errors:
+        metric: |
+          {{- $errorsMetric | nindent 10 }}
+      total:
+        metric: |
+          {{- $totalMetric | nindent 10 }}
+    {{- else if eq $indicatorType "latency" }}
+    latency:
+      success:
+        metric: |
+          {{- $errorsMetric | nindent 10 }}
+      total:
+        metric: |
+          {{- $totalMetric | nindent 10 }}
+    {{- end }}
+{{- end }}
