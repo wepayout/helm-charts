@@ -159,6 +159,23 @@ extraArgs: []
 initContainers: []
 additionalContainers: []
 
+rbac:
+  create: false
+  # If true, create and use RBAC resources
+  # role:
+  #   name: my-custom-role
+  #   rules:
+  #   - apiGroups: ["batch"]
+  #     resources: ["cronjobs"]
+  #     verbs: ["patch", "update"]
+  #   - apiGroups: [""]
+  #     resources: ["pods"]
+  #     verbs: ["get", "list"]
+
+  # roleBinding:
+  #   name: ""
+  #   roleRef: ""
+
 livenessProbe: {}
   # httpGet:
   #   path: /health-check/
