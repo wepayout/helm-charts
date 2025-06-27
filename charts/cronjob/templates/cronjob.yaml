@@ -116,17 +116,17 @@ spec:
           {{- with .Values.nodeSelector }}
           # Pod node selectors
           nodeSelector:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.affinity }}
           # Pod affinities
           affinity:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.tolerations }}
           # Pod tolerations
           tolerations:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           restartPolicy: {{ .Values.restartPolicy }}
 
