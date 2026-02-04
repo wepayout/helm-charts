@@ -140,3 +140,10 @@ spec:
       # Pod volumes
       terminationGracePeriodSeconds: {{ . }}
       {{- end }}
+      {{- with .Values.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.dnsPolicy }}
+      dnsPolicy: {{ . }}
+      {{- end }}
