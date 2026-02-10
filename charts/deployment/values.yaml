@@ -42,12 +42,10 @@ istio:
   app: ""
   version: "current"
 
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -70,8 +68,7 @@ service:
 
 virtualServices:
   enabled: false
-  services:
-    []
+  services: []
     # - name: ""
     #   nameSuffix: ""
     #   hosts:
@@ -90,8 +87,7 @@ virtualServices:
 
 destinationRules:
   enabled: false
-  rules:
-    []
+  rules: []
     # - name: ""
     #   nameSuffix: ""
     #   host: ""
@@ -99,8 +95,7 @@ destinationRules:
     #   subsets: []
     #   exportsTo: []
 
-resources:
-  {}
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -129,8 +124,7 @@ autoscaling:
       behavior:
         scaleDown:
           stabilizationWindowSeconds: 300
-  metrics:
-    []
+  metrics: []
     # - type: Resource
     #   resource:
     #     name: memory
@@ -226,45 +220,48 @@ podDisruptionBudget:
 
 ## Configuração do SLO
 slo:
-  enabled: false      # Habilita/desabilita a criação do SLO
-  
+  enabled: false # Habilita/desabilita a criação do SLO
+
   ## Metadados básicos
   name: ""
-  namespace: ""  # Opcional - usa .Release.Namespace se não definido
+  namespace: "" # Opcional - usa .Release.Namespace se não definido
   description: ""
   summary: ""
-  sloType: ""  # Tipo do SLO (availability/latency/bool)
-  
+  sloType: "" # Tipo do SLO (availability/latency/bool)
+
   ## Configurações do SLO
-  target: ""     # Target em % (99.9 = 99.9%)
-  window: ""       # Janela de avaliação (1d, 1w, 4w)
-  alertingDisabled: false  # Se true, desabilita alertas
-  
+  target: "" # Target em % (99.9 = 99.9%)
+  window: "" # Janela de avaliação (1d, 1w, 4w)
+  alertingDisabled: false # Se true, desabilita alertas
+
   ## Métricas (usar --set-string para preservar formatação)
   errorsMetric: |
     sum(rate(istio_requests_total{
       <app_name>="",
       response_code=~"5.."
     }[1m]))
-  
+
   totalMetric: |
     sum(rate(istio_requests_total{
       <app_name>=""
     }[1m]))
-  
+
   ## Agrupamento (opcional)
-  grouping: 
+  grouping:
     - ""
-  
+
   ## Links e documentação
   runbookUrl: ""
-  
+
   ## Labels e annotations adicionais
   labels:
     team: ""
     severity: ""
     app.kubernetes.io/component: "slo"
-  
+
   annotations:
     monitoring.wepayout.com/severity: ""
     implemented-by: ""
+
+dnsConfig:
+  ndots: 2
