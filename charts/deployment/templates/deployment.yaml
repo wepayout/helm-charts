@@ -140,3 +140,9 @@ spec:
       # Pod volumes
       terminationGracePeriodSeconds: {{ . }}
       {{- end }}
+      {{- with .Values.dnsConfig }}
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "{{ .ndots }}"
+      {{- end }}
