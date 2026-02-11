@@ -268,3 +268,6 @@ slo:
   annotations:
     monitoring.wepayout.com/severity: ""
     implemented-by: ""
+
+dnsConfig:
+  ndots: 2
