@@ -131,6 +131,11 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      # Pod topology spread constraints
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.volumes }}
       # Pod volumes
       volumes:
