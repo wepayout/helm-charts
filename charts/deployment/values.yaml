@@ -20,6 +20,12 @@ strategy: {}
   #   maxUnavailable: 0%
   #   maxSurge: 50%
 
+# Seconds a new pod must stay Ready before it counts as available and the
+# rollout proceeds to remove the next old pod. Unset (default) keeps the
+# Kubernetes default of 0 and renders nothing.
+minReadySeconds: ~
+  # minReadySeconds: 10
+
 nameOverride: ""
 fullnameOverride: ""
 
