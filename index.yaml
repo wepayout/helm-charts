@@ -201,6 +201,17 @@ entries:
   deployment:
   - apiVersion: v2
     appVersion: 0.2.0
+    created: "2026-09-30T20:57:29.335929791Z"
+    description: A Helm chart for a generic deployment with Istio service mesh created
+      by WePayOut.
+    digest: 7de4ae9a7d1769eeed72c80f538a5ac766f6e51e5eae8df50638df4c0733f8c1
+    name: deployment
+    type: application
+    urls:
+    - https://github.com/wepayout/helm-charts/releases/download/deployment-0.2.51/deployment-0.2.51.tgz
+    version: 0.2.51
+  - apiVersion: v2
+    appVersion: 0.2.0
     created: "2026-07-06T13:55:11.265058386Z"
     description: A Helm chart for a generic deployment with Istio service mesh created
       by WePayOut.
@@ -1116,4 +1127,4 @@ entries:
     urls:
     - https://github.com/wepayout/helm-charts/releases/download/starter-chart-0.1.0/starter-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2026-07-06T13:55:11.265321529Z"
+generated: "2026-09-30T20:57:29.336182217Z"
