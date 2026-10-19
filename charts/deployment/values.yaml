@@ -64,6 +64,10 @@ securityContext:
 service:
   enabled: true
   type: ClusterIP
+  # Kubernetes trafficDistribution (GA 1.35): "" keeps the default (any endpoint),
+  # PreferSameZone routes to endpoints in the caller's zone when available, PreferSameNode to the
+  # caller's node. Honoured by kube-proxy and by Istio sidecars (endpoint priorities).
+  trafficDistribution: ""
   primaryPort:
     number: 80
     targetPort: http
@@ -141,6 +145,24 @@ autoscaling:
     #   resource:
     #     name: memory
     #     targetAverageUtilization: 70
+
+# Vertical Pod Autoscaler object for this Deployment (requires the VPA controllers in the cluster).
+# updateMode: Off (recommendation only), Initial, Recreate, InPlaceOrRecreate (Kubernetes >= 1.35,
+# VPA >= 1.7: resizes running pods without restart, recreates only when in-place is not possible).
+# The istio-proxy container is always excluded; limits are never touched (RequestsOnly).
+vpa:
+  enabled: false
+  updateMode: "Off"
+  # updater default is 2: single-replica workloads need 1 to be updated at all
+  minReplicas: 1
+  controlledValues: RequestsOnly
+  # [] = cpu and memory; use ["memory"] for workloads with a CPU-based HPA
+  controlledResources: []
+  minAllowed: {}
+  #  cpu: 25m
+  #  memory: 96Mi
+  maxAllowed: {}
+  annotations: {}
 
 triggerAuthentication:
   enabled: false

@@ -12,7 +12,7 @@ Charts are published automatically to
 
 | Chart | Version | Description |
 |-------|---------|-------------|
-| [`deployment`](charts/deployment) | `0.2.50` | Generic application Deployment with Istio service mesh support, autoscaling (KEDA), SLOs, PodDisruptionBudget, and more. |
+| [`deployment`](charts/deployment) | `0.2.52` | Generic application Deployment with Istio service mesh support, autoscaling (KEDA), SLOs, PodDisruptionBudget, and more. |
 | [`cronjob`](charts/cronjob) | `0.1.19` | Generic CronJob with Istio service mesh support and extensive customization through `values`. |
 | [`provisioner`](charts/provisioner) | `0.1.8` | [Karpenter](https://karpenter.sh/) Provisioner for dynamic node provisioning in the cluster. |
 | [`argocd-apps`](charts/argocd-apps) | `0.1.0` | Declarative management of [ArgoCD](https://argo-cd.readthedocs.io/) `Application` resources. |
