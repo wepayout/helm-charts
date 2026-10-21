@@ -1,12 +1,40 @@
 {{- if .Values.vpa.enabled }}
+{{- $mode := .Values.vpa.updateMode | default "Off" | toString }}
+{{- if and .Values.autoscaling.enabled (ne $mode "Off") }}
+{{- $controlled := .Values.vpa.controlledResources | default (list "cpu" "memory") }}
+{{- if not (kindIs "slice" $controlled) }}
+{{- fail "vpa.controlledResources must be a list, e.g. [memory]" }}
+{{- end }}
+{{- $scaledOn := list }}
+{{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+{{- $scaledOn = append $scaledOn "cpu" }}
+{{- end }}
+{{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+{{- $scaledOn = append $scaledOn "memory" }}
+{{- end }}
+{{- range .Values.autoscaling.metrics }}
+{{- $type := toString (get . "type") }}
+{{- if has $type (list "cpu" "memory") }}
+{{- if ne (toString (get . "metricType")) "AverageValue" }}
+{{- $scaledOn = append $scaledOn $type }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- range $scaledOn }}
+{{- if has . $controlled }}
+{{- fail (printf "vpa.updateMode %s would change %s requests while KEDA scales on %s utilization: keep vpa.updateMode Off or remove %s from vpa.controlledResources" $mode . . .) }}
+{{- end }}
+{{- end }}
+{{- end }}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: {{ include "deployment.fullname" . }}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
-  {{- with .Values.vpa.annotations }}
   annotations:
+    app.wepayments.com.br/version: {{ .Values.image.tag | quote }}
+  {{- with .Values.vpa.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -15,16 +43,16 @@ spec:
     kind: "Deployment"
     name: {{ include "deployment.fullname" . }}
   updatePolicy:
-    updateMode: {{ .Values.vpa.updateMode | quote }}
+    updateMode: {{ $mode | quote }}
     {{- with .Values.vpa.minReplicas }}
     minReplicas: {{ . }}
     {{- end }}
   resourcePolicy:
     containerPolicies:
-      - containerName: istio-proxy
+      - containerName: "istio-proxy"
         mode: "Off"
       - containerName: "*"
-        controlledValues: {{ .Values.vpa.controlledValues | quote }}
+        controlledValues: {{ .Values.vpa.controlledValues | default "RequestsOnly" | quote }}
         {{- with .Values.vpa.controlledResources }}
         controlledResources:
           {{- toYaml . | nindent 10 }}
