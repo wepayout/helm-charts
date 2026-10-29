@@ -8,6 +8,9 @@ metadata:
     {{- include "deployment.istioNameLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  {{- with .Values.service.trafficDistribution }}
+  trafficDistribution: {{ . | quote }}
+  {{- end }}
   ports:
     - port: {{ .Values.service.primaryPort.number }}
       targetPort: {{ .Values.service.primaryPort.targetPort }}

@@ -64,6 +64,13 @@ securityContext:
 service:
   enabled: true
   type: ClusterIP
+  # spec.trafficDistribution (field GA in Kubernetes 1.33; PreferSameZone and PreferSameNode GA in 1.35).
+  # "" keeps the default (any endpoint). PreferSameZone sends traffic to the caller's zone whenever that
+  # zone has a ready endpoint. It never spills over by load, only by availability (kube-proxy when the
+  # zone has no ready endpoint, Istio by health/priority failover), so spread the replicas across zones
+  # (topologySpreadConstraints) before enabling it. PreferSameZone is honoured by Istio 1.30 sidecars
+  # and gateways.
+  trafficDistribution: ""
   primaryPort:
     number: 80
     targetPort: http
@@ -141,6 +148,35 @@ autoscaling:
     #   resource:
     #     name: memory
     #     targetAverageUtilization: 70
+
+# VerticalPodAutoscaler for this Deployment. It needs the VPA CRD and controllers in the cluster, so
+# enable it per environment.
+# updateMode: Off (recommendations only), Initial, Recreate or InPlaceOrRecreate (resizes running pods in
+# place and recreates them only when that is not possible). InPlaceOrRecreate needs a CRD that lists it:
+# the VPA 1.7 CRD does, the 2024 Goldilocks CRD does not.
+# The istio-proxy container is always excluded and limits are never changed (RequestsOnly).
+# When an older VPA targets the same Deployment (e.g. goldilocks-<name>), the VPA controllers may act on
+# that one instead: delete it before leaving Off.
+# With a single replica, Recreate (or the InPlaceOrRecreate fallback) evicts the only pod, and a
+# PodDisruptionBudget that allows no disruption can block the update.
+vpa:
+  enabled: false
+  updateMode: "Off"
+  # The updater default is 2, so single-replica workloads need 1 to be updated at all.
+  # 0 or null keeps the updater default.
+  minReplicas: 1
+  controlledValues: RequestsOnly
+  # [] = cpu and memory. Leave out every resource that also drives a KEDA Utilization trigger
+  # (autoscaling.target*UtilizationPercentage or a cpu/memory entry in autoscaling.metrics): unless
+  # updateMode is Off, the chart fails the render instead of letting VPA and the HPA fight.
+  controlledResources: []
+  # The recommender never goes below 100Mi of memory per pod (VPA chart default), split across the
+  # controlled containers.
+  minAllowed: {}
+  #  cpu: 25m
+  #  memory: 128Mi
+  maxAllowed: {}
+  annotations: {}
 
 triggerAuthentication:
   enabled: false
